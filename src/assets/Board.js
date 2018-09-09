@@ -1,56 +1,22 @@
 import React from "react";
 import Square from './Square';
-import {calculateWinner} from '../logic/calculateWinner';
-
-const PLAYERS = {
-    FIRST: 'X',
-    SECOND: 'O',
-};
 
 export default class Board extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            matrix: Array(9).fill(null),
-            player: PLAYERS.FIRST,
-            winner: null,
-        }
-    }
-
-    getMatrix(index) {
-        return this.state.matrix.slice(0)
-            .fill(this.state.player, index, index + 1);
-    }
-
-    getPlayer() {
-        return this.state.player === PLAYERS.FIRST ? PLAYERS.SECOND : PLAYERS.FIRST;
-    }
-
     renderSquare(index) {
         return <Square
-            index={this.state.matrix[index]}
-            onClick={() => this.setSquareState(index)}
+            index={this.props.matrix[index]}
+            onClick={() => this.props.onClick(index)}
         />;
     }
 
-    setSquareState(index) {
-        let newMatrixState = this.getMatrix(index);
-
-        this.setState({
-            matrix: newMatrixState,
-            player: this.getPlayer(),
-            winner: calculateWinner(newMatrixState),
-        });
-    }
-
     getStatusGame() {
-        return this.state.winner === null ?
-            `Next player: ${this.state.player}` :
-            `Winner: ${this.state.winner}`;
+        return this.props.winner === null ?
+            `Next player: ${this.props.player}` :
+            `Winner: ${this.props.winner}`;
     }
 
     getBoardGame() {
-        return this.state.winner === null && (
+        return this.props.winner === null && (
             <div>
                 <div className="board-row">
                     {this.renderSquare(0)}
@@ -71,7 +37,7 @@ export default class Board extends React.Component {
         );
     }
 
-    getResetGame() {
+    static getResetGame() {
         return (
             <div>
                 <button onClick={alert}>reset game</button>
@@ -83,7 +49,7 @@ export default class Board extends React.Component {
         return (
             <div>
                 <div className="status">{this.getStatusGame()}</div>
-                {this.getBoardGame() || this.getResetGame()}
+                {this.getBoardGame() || Board.getResetGame()}
             </div>
         );
     }
