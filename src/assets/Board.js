@@ -1,16 +1,27 @@
 import React from "react";
 import Square from './Square';
 
+const PLAYERS = {
+    FIRST: 'X',
+    SECOND: 'O',
+};
+
 export default class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             matrix: Array(9).fill(null),
+            player: PLAYERS.FIRST,
         }
     }
 
-    getMatrixCopy(index, value) {
-        return this.state.matrix.slice(0).fill(value, index, index + 1);
+    getMatrix(index) {
+        return this.state.matrix.slice(0)
+            .fill(this.state.player, index, index + 1);
+    }
+
+    getPlayer() {
+        return this.state.player === PLAYERS.FIRST ? PLAYERS.SECOND : PLAYERS.FIRST;
     }
 
     renderSquare(index) {
@@ -22,14 +33,13 @@ export default class Board extends React.Component {
 
     setSquareState(index) {
         this.setState({
-            // inmutabilidad: sobreescribir la referencia del objeto con un valor manupulado.
-            // mutabilidad: manipular el valor de las propiedades de los objetos accediendo al espacio en memoria que ocupan.
-            matrix: this.getMatrixCopy(index, 'X'),
+            matrix: this.getMatrix(index),
+            player: this.getPlayer(),
         });
     }
 
     render() {
-        const status = 'Next player: X';
+        const status = `Next player: ${this.state.player}`;
 
         return (
             <div>
