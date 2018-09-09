@@ -1,5 +1,6 @@
 import React from "react";
 import Square from './Square';
+import {calculateWinner} from '../logic/calculateWinner';
 
 const PLAYERS = {
     FIRST: 'X',
@@ -12,6 +13,7 @@ export default class Board extends React.Component {
         this.state = {
             matrix: Array(9).fill(null),
             player: PLAYERS.FIRST,
+            winner: null,
         }
     }
 
@@ -32,18 +34,24 @@ export default class Board extends React.Component {
     }
 
     setSquareState(index) {
+        let newMatrixState = this.getMatrix(index);
+
         this.setState({
-            matrix: this.getMatrix(index),
+            matrix: newMatrixState,
             player: this.getPlayer(),
+            winner: calculateWinner(newMatrixState),
         });
     }
 
-    render() {
-        const status = `Next player: ${this.state.player}`;
+    getStatusGame() {
+        return this.state.winner === null ?
+            `Next player: ${this.state.player}` :
+            `Winner: ${this.state.winner}`;
+    }
 
-        return (
+    getBoardGame() {
+        return this.state.winner === null && (
             <div>
-                <div className="status">{status}</div>
                 <div className="board-row">
                     {this.renderSquare(0)}
                     {this.renderSquare(1)}
@@ -59,6 +67,23 @@ export default class Board extends React.Component {
                     {this.renderSquare(7)}
                     {this.renderSquare(8)}
                 </div>
+            </div>
+        );
+    }
+
+    getResetGame() {
+        return (
+            <div>
+                <button onClick={alert}>reset game</button>
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div>
+                <div className="status">{this.getStatusGame()}</div>
+                {this.getBoardGame() || this.getResetGame()}
             </div>
         );
     }
