@@ -22,6 +22,8 @@ export default class Board extends React.Component {
 
     setSquareState(index) {
         this.setState({
+            // inmutabilidad: sobreescribir la referencia del objeto con un valor manupulado.
+            // mutabilidad: manipular el valor de las propiedades de los objetos accediendo al espacio en memoria que ocupan.
             matrix: this.getMatrixCopy(index, 'X'),
         });
     }
