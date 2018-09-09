@@ -28,6 +28,22 @@ export default class Game extends React.Component {
         return this.getCurrentHistory()[property];
     }
 
+    getHistoryListStatus() {
+        return this.state.history.map((step, index) => {
+            let move = index === 0 ? 'Go to game start' : `Go to move ${index + 1}`;
+            let isLastMovement = this.state.history.length - 1 === index && this.getHistoryProperty('winner') !== null;
+
+            return !isLastMovement && (
+                <li>
+                    <button onClick={() => this.jumpToMove(index)}>{move}</button>
+                </li>
+            );
+        });
+    }
+
+    jumpToMove(index) {
+    }
+
     getMatrix(index) {
         return this.getHistoryProperty('matrix').slice(0)
             .fill(this.getHistoryProperty('player'), index, index + 1);
@@ -61,8 +77,7 @@ export default class Game extends React.Component {
                     />
                 </div>
                 <div className="game-info">
-                    <div>{/* status */}</div>
-                    <ol>{/* TODO */}</ol>
+                    <ol>{this.getHistoryListStatus()}</ol>
                 </div>
             </div>
         );

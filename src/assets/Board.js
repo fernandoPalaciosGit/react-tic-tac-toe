@@ -37,19 +37,11 @@ export default class Board extends React.Component {
         );
     }
 
-    static getResetGame() {
-        return (
-            <div>
-                <button onClick={alert}>reset game</button>
-            </div>
-        );
-    }
-
     render() {
         return (
             <div>
                 <div className="status">{this.getStatusGame()}</div>
-                {this.getBoardGame() || Board.getResetGame()}
+                {this.getBoardGame()}
             </div>
         );
     }
