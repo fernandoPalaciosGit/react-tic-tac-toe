@@ -16,12 +16,13 @@ export default class Game extends React.Component {
                 player: PLAYERS.FIRST,
                 winner: null,
             }],
+            moveNumber: 0,
         };
     }
 
     getCurrentHistory() {
         let history = this.state.history;
-        return history[history.length - 1];
+        return history[this.state.moveNumber];
     }
 
     getHistoryProperty(property) {
@@ -34,14 +35,17 @@ export default class Game extends React.Component {
             let isLastMovement = this.state.history.length - 1 === index && this.getHistoryProperty('winner') !== null;
 
             return !isLastMovement && (
-                <li>
+                <li key={'move-' + index}>
                     <button onClick={() => this.jumpToMove(index)}>{move}</button>
                 </li>
             );
         });
     }
 
-    jumpToMove(index) {
+    jumpToMove(indexMove) {
+        this.setState({
+            moveNumber: indexMove,
+        });
     }
 
     getMatrix(index) {
@@ -49,19 +53,25 @@ export default class Game extends React.Component {
             .fill(this.getHistoryProperty('player'), index, index + 1);
     }
 
-    getPlayer() {
+    getHistory() {
+        return this.state.history.slice(0, this.state.moveNumber + 1);
+    }
+
+    getNextPlayer() {
         return this.getHistoryProperty('player') === PLAYERS.FIRST ? PLAYERS.SECOND : PLAYERS.FIRST;
     }
 
-    setSquareState(index) {
-        let newMatrixState = this.getMatrix(index);
+    setSquareState(squarePosition) {
+        let newMatrixState = this.getMatrix(squarePosition);
+        let newHistory = this.getHistory();
 
         this.setState({
-            history: this.state.history.concat({
+            history: newHistory.concat({
                 matrix: newMatrixState,
-                player: this.getPlayer(),
+                player: this.getNextPlayer(),
                 winner: calculateWinner(newMatrixState),
-            })
+            }),
+            moveNumber: newHistory.length,
         })
     }
 
@@ -73,7 +83,7 @@ export default class Game extends React.Component {
                         matrix={this.getHistoryProperty('matrix')}
                         player={this.getHistoryProperty('player')}
                         winner={this.getHistoryProperty('winner')}
-                        onClick={(index) => this.setSquareState(index)}
+                        onClick={(squarePosition) => this.setSquareState(squarePosition)}
                     />
                 </div>
                 <div className="game-info">

@@ -2,10 +2,10 @@ import React from "react";
 import Square from './Square';
 
 export default class Board extends React.Component {
-    renderSquare(index) {
+    renderSquare(squarePosition) {
         return <Square
-            index={this.props.matrix[index]}
-            onClick={() => this.props.onClick(index)}
+            index={this.props.matrix[squarePosition]}
+            onClick={() => this.props.onClick(squarePosition)}
         />;
     }
 
