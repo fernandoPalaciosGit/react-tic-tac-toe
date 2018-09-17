@@ -119,6 +119,8 @@ export default class Game extends React.Component {
                         matrix={this.getHistoryProperty('matrix')}
                         player={this.getHistoryProperty('player')}
                         winner={this.getHistoryProperty('winner')}
+                        moveNumber={this.state.moveNumber}
+                        totalMovements={this.state.history.length}
                         onClick={(squarePosition) => this.checkSquareState(squarePosition)}
                     />
                 </div>

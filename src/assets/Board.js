@@ -15,6 +15,13 @@ export default class Board extends React.Component {
             `Winner: ${this.props.winner}`;
     }
 
+    getStatusMovement() {
+        let hasToShowLastMovement = this.props.totalMovements - 1 === this.props.moveNumber && this.props.winner !== null;
+
+        return this.props.moveNumber === 0 ? 'First movement' :
+            hasToShowLastMovement ? 'Last Movement' : `Movement: ${this.props.moveNumber + 1}`;
+    }
+
     getBoardGame() {
         return (
             <div>
@@ -40,7 +47,8 @@ export default class Board extends React.Component {
     render() {
         return (
             <div>
-                <div className="status">{this.getStatusGame()}</div>
+                <div className="status status--movement">{this.getStatusMovement()}</div>
+                <div className="status status--game">{this.getStatusGame()}</div>
                 {this.getBoardGame()}
             </div>
         );
