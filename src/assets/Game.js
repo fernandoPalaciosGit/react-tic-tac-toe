@@ -7,8 +7,7 @@ const PLAYERS = {
     SECOND: 'O',
 };
 
-// todo: se debe marcar las posiciones X Y en la lista de movimientos.
-// todo: marcar onla casilla seleccionada
+// todo: marcar la casilla seleccionada
 // todo: hacer loops para instanciar las casillas
 // todo: boton para ordenar los movimientos en posicion asc/desc
 // todo: cuando alguien gana remarcar las 3 casillas ganadoras
@@ -36,17 +35,41 @@ export default class Game extends React.Component {
         return this.getCurrentHistory()[property];
     }
 
-    getHistoryListStatus() {
-        return this.state.history.map((step, index) => {
-            let move = index === 0 ? 'Go to game start' : `Go to move ${index + 1}`;
-            let isLastMovement = this.state.history.length - 1 === index && this.getHistoryProperty('winner') !== null;
+    getPlayersPosition(matrix, player) {
+        return matrix.map(function(val, index) {
+            return player === val ? index + 1 : null;
+        }).filter(function(val) {
+            return val !== null;
+        });
+    }
 
-            return !isLastMovement && (
+    getHistoryListStatus() {
+        let historyLength = this.state.history.length;
+
+        return this.state.history.map((step, index) => {
+            let isLastStep = historyLength - 1 === index;
+            let hasWinnerGame = step.winner !== null;
+            let hasToShowLastMovement = isLastStep && hasWinnerGame;
+            let move = index === 0 ? 'Go to game start' : hasToShowLastMovement ? `Last movement` : `Go to move ${index + 1}`;
+
+            return (
                 <li key={'move-' + index}>
                     <button onClick={() => this.jumpToMove(index)}>{move}</button>
+                    {this.getHistoryPlayersPosition(step.matrix, index)}
                 </li>
             );
         });
+    }
+
+    getHistoryPlayersPosition(matrix, index) {
+        return index !== 0 && (
+            <span>
+                <strong> Player positions --> </strong>
+                <span>{PLAYERS.FIRST} : ({this.getPlayersPosition(matrix, PLAYERS.FIRST).join('-')})</span>
+                <strong>, </strong>
+                <span>{PLAYERS.SECOND} : ({this.getPlayersPosition(matrix, PLAYERS.SECOND).join('-')})</span>
+            </span>
+        );
     }
 
     jumpToMove(indexMove) {
@@ -69,7 +92,7 @@ export default class Game extends React.Component {
     }
 
     checkSquareState(squarePosition) {
-        if (this.getHistoryProperty('matrix')[squarePosition] === null) {
+        if (this.getHistoryProperty('matrix')[squarePosition] === null && this.getHistoryProperty('winner') === null) {
             this.setSquareState(squarePosition)
         }
     }
@@ -100,7 +123,7 @@ export default class Game extends React.Component {
                     />
                 </div>
                 <div className="game-info">
-                    <ol>{this.getHistoryListStatus()}</ol>
+                    <ul>{this.getHistoryListStatus()}</ul>
                 </div>
             </div>
         );

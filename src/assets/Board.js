@@ -16,7 +16,7 @@ export default class Board extends React.Component {
     }
 
     getBoardGame() {
-        return this.props.winner === null && (
+        return (
             <div>
                 <div className="board-row">
                     {this.renderSquare(0)}
