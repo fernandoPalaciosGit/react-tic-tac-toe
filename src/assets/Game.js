@@ -7,6 +7,13 @@ const PLAYERS = {
     SECOND: 'O',
 };
 
+// todo: se debe marcar las posiciones X Y en la lista de movimientos.
+// todo: marcar onla casilla seleccionada
+// todo: hacer loops para instanciar las casillas
+// todo: boton para ordenar los movimientos en posicion asc/desc
+// todo: cuando alguien gana remarcar las 3 casillas ganadoras
+// todo: cuando hay un empate, notificarlo.
+
 export default class Game extends React.Component {
     constructor(props) {
         super(props);
@@ -61,6 +68,12 @@ export default class Game extends React.Component {
         return this.getHistoryProperty('player') === PLAYERS.FIRST ? PLAYERS.SECOND : PLAYERS.FIRST;
     }
 
+    checkSquareState(squarePosition) {
+        if (this.getHistoryProperty('matrix')[squarePosition] === null) {
+            this.setSquareState(squarePosition)
+        }
+    }
+
     setSquareState(squarePosition) {
         let newMatrixState = this.getMatrix(squarePosition);
         let newHistory = this.getHistory();
@@ -83,7 +96,7 @@ export default class Game extends React.Component {
                         matrix={this.getHistoryProperty('matrix')}
                         player={this.getHistoryProperty('player')}
                         winner={this.getHistoryProperty('winner')}
-                        onClick={(squarePosition) => this.setSquareState(squarePosition)}
+                        onClick={(squarePosition) => this.checkSquareState(squarePosition)}
                     />
                 </div>
                 <div className="game-info">
