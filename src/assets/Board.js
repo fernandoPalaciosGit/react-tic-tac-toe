@@ -2,13 +2,6 @@ import React from "react";
 import Square from './Square';
 
 export default class Board extends React.Component {
-    renderSquare(squarePosition) {
-        return <Square
-            index={this.props.matrix[squarePosition]}
-            onClick={() => this.props.onClick(squarePosition)}
-        />;
-    }
-
     getStatusGame() {
         return this.props.winner === null ?
             `Next player: ${this.props.player}` :
@@ -22,26 +15,25 @@ export default class Board extends React.Component {
             hasToShowLastMovement ? 'Last Movement' : `Movement: ${this.props.moveNumber + 1}`;
     }
 
-    getBoardGame() {
-        return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
-        );
+    renderBoardSquare(rowsDimension) {
+        return this.props.dimension.map((squareIndex) => {
+            let squarePosition = rowsDimension + squareIndex;
+
+            return (
+                <Square player={this.props.matrix[squarePosition]}
+                        onClick={() => this.props.onClick(squarePosition)}/>
+            );
+        });
+    }
+
+    renderBoardRow() {
+        return this.props.dimension.map((rowIndex) => {
+            let rowDimension = rowIndex * this.props.dimension.length;
+
+            return (
+                <div className="board-row">{this.renderBoardSquare(rowDimension)}</div>
+            );
+        });
     }
 
     render() {
@@ -49,7 +41,7 @@ export default class Board extends React.Component {
             <div>
                 <div className="status status--movement">{this.getStatusMovement()}</div>
                 <div className="status status--game">{this.getStatusGame()}</div>
-                {this.getBoardGame()}
+                {this.renderBoardRow()}
             </div>
         );
     }

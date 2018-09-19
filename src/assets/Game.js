@@ -1,6 +1,7 @@
 import React from 'react';
 import Board from './Board';
 import {calculateWinner} from "../logic/calculateWinner";
+import _ from 'lodash';
 
 const PLAYERS = {
     FIRST: 'X',
@@ -8,7 +9,6 @@ const PLAYERS = {
 };
 
 // todo: marcar la casilla seleccionada
-// todo: hacer loops para instanciar las casillas
 // todo: boton para ordenar los movimientos en posicion asc/desc
 // todo: cuando alguien gana remarcar las 3 casillas ganadoras
 // todo: cuando hay un empate, notificarlo.
@@ -23,6 +23,7 @@ export default class Game extends React.Component {
                 winner: null,
             }],
             moveNumber: 0,
+            dimension: _.range(3)
         };
     }
 
@@ -121,6 +122,7 @@ export default class Game extends React.Component {
                         winner={this.getHistoryProperty('winner')}
                         moveNumber={this.state.moveNumber}
                         totalMovements={this.state.history.length}
+                        dimension={this.state.dimension}
                         onClick={(squarePosition) => this.checkSquareState(squarePosition)}
                     />
                 </div>
