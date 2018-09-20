@@ -13,7 +13,10 @@ export function calculateWinner(squares) {
     for (let i = 0; i < MATRIX.length; i++) {
         const [a, b, c] = MATRIX[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            return {
+                player: squares[a],
+                line: MATRIX[i],
+            };
         }
     }
     return null;

@@ -5,7 +5,7 @@ export default class Board extends React.Component {
     getStatusGame() {
         return this.props.winner === null ?
             `Next player: ${this.props.nextPlayer}` :
-            `Winner: ${this.props.winner}`;
+            `Winner: ${this.props.winner.player}`;
     }
 
     getStatusMovement() {
@@ -23,7 +23,8 @@ export default class Board extends React.Component {
             return (
                 <Square player={player}
                         highlighMove={this.props.winner === null && player === this.props.nextPlayer}
-                        highlighWinner={this.props.winner !== null && player === this.props.winner}
+                        highlighWinner={this.props.winner !== null &&
+                                        this.props.winner.line.indexOf(squarePosition) !== -1}
                         onClick={() => this.props.onClick(squarePosition)}/>
             );
         });

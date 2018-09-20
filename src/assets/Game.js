@@ -8,7 +8,6 @@ const PLAYERS = {
     SECOND: 'O',
 };
 
-// todo: cuando alguien gana remarcar las 3 casillas ganadoras
 // todo: cuando hay un empate, notificarlo.
 
 export default class Game extends React.Component {
