@@ -4,7 +4,7 @@ import Square from './Square';
 export default class Board extends React.Component {
     getStatusGame() {
         return this.props.winner === null ?
-            `Next player: ${this.props.player}` :
+            `Next player: ${this.props.nextPlayer}` :
             `Winner: ${this.props.winner}`;
     }
 
@@ -18,9 +18,12 @@ export default class Board extends React.Component {
     renderBoardSquare(rowsDimension) {
         return this.props.dimension.map((squareIndex) => {
             let squarePosition = rowsDimension + squareIndex;
+            let player = this.props.matrix[squarePosition];
 
             return (
-                <Square player={this.props.matrix[squarePosition]}
+                <Square player={player}
+                        highlighMove={this.props.winner === null && player === this.props.nextPlayer}
+                        highlighWinner={this.props.winner !== null && player === this.props.winner}
                         onClick={() => this.props.onClick(squarePosition)}/>
             );
         });

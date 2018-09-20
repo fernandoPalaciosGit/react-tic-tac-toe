@@ -8,7 +8,6 @@ const PLAYERS = {
     SECOND: 'O',
 };
 
-// todo: marcar la casilla seleccionada
 // todo: boton para ordenar los movimientos en posicion asc/desc
 // todo: cuando alguien gana remarcar las 3 casillas ganadoras
 // todo: cuando hay un empate, notificarlo.
@@ -118,7 +117,7 @@ export default class Game extends React.Component {
                 <div className="game-board">
                     <Board
                         matrix={this.getHistoryProperty('matrix')}
-                        player={this.getHistoryProperty('player')}
+                        nextPlayer={this.getHistoryProperty('player')}
                         winner={this.getHistoryProperty('winner')}
                         moveNumber={this.state.moveNumber}
                         totalMovements={this.state.history.length}

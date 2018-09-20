@@ -36,6 +36,14 @@ ol, ul {
     outline: none;
 }
 
+.square.active {
+    background-color: #00bcd48a;
+}
+
+.square.winner {
+    background-color: #f44336a3;
+}
+
 .kbd-navigation .square:focus {
     background: #ddd;
 }
