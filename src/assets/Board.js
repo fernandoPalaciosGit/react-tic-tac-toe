@@ -3,9 +3,9 @@ import Square from './Square';
 
 export default class Board extends React.Component {
     getStatusGame() {
-        return this.props.winner === null ?
-            `Next player: ${this.props.nextPlayer}` :
-            `Winner: ${this.props.winner.player}`;
+        return this.props.winner !== null ?
+            `Winner: ${this.props.winner.player}` :
+            this.isNextPlayerMovement() ? `Next player: ${this.props.nextPlayer}` : 'TIE !!!';
     }
 
     getStatusMovement() {
@@ -15,6 +15,10 @@ export default class Board extends React.Component {
             hasToShowLastMovement ? 'Last Movement' : `Movement: ${this.props.moveNumber + 1}`;
     }
 
+    isNextPlayerMovement() {
+        return this.props.winner === null && this.props.matrix.indexOf(null) !== -1;
+    }
+
     renderBoardSquare(rowsDimension) {
         return this.props.dimension.map((squareIndex) => {
             let squarePosition = rowsDimension + squareIndex;
@@ -22,9 +26,8 @@ export default class Board extends React.Component {
 
             return (
                 <Square player={player}
-                        highlighMove={this.props.winner === null && player === this.props.nextPlayer}
-                        highlighWinner={this.props.winner !== null &&
-                                        this.props.winner.line.indexOf(squarePosition) !== -1}
+                        highlighMove={this.isNextPlayerMovement() && player === this.props.nextPlayer}
+                        highlighWinner={this.props.winner !== null && this.props.winner.line.indexOf(squarePosition) !== -1}
                         onClick={() => this.props.onClick(squarePosition)}/>
             );
         });

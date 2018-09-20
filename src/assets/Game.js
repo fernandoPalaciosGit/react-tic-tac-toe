@@ -8,8 +8,6 @@ const PLAYERS = {
     SECOND: 'O',
 };
 
-// todo: cuando hay un empate, notificarlo.
-
 export default class Game extends React.Component {
     constructor(props) {
         super(props);
