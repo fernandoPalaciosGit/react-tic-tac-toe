@@ -8,7 +8,6 @@ const PLAYERS = {
     SECOND: 'O',
 };
 
-// todo: boton para ordenar los movimientos en posicion asc/desc
 // todo: cuando alguien gana remarcar las 3 casillas ganadoras
 // todo: cuando hay un empate, notificarlo.
 
@@ -21,6 +20,7 @@ export default class Game extends React.Component {
                 player: PLAYERS.FIRST,
                 winner: null,
             }],
+            orderMovementsAsc: true,
             moveNumber: 0,
             dimension: _.range(3)
         };
@@ -43,14 +43,14 @@ export default class Game extends React.Component {
         });
     }
 
-    getHistoryListStatus() {
+    getHistoryMovements() {
         let historyLength = this.state.history.length;
-
-        return this.state.history.map((step, index) => {
+        let listOfMovements = this.state.history.map((step, index) => {
             let isLastStep = historyLength - 1 === index;
             let hasWinnerGame = step.winner !== null;
             let hasToShowLastMovement = isLastStep && hasWinnerGame;
-            let move = index === 0 ? 'Go to game start' : hasToShowLastMovement ? `Last movement` : `Go to move ${index + 1}`;
+            let move = index === 0 ? 'Go to game start' :
+                hasToShowLastMovement ? `Last movement` : `Go to move ${index + 1}`;
 
             return (
                 <li key={'move-' + index}>
@@ -59,6 +59,8 @@ export default class Game extends React.Component {
                 </li>
             );
         });
+
+        return this.state.orderMovementsAsc ? listOfMovements : listOfMovements.reverse();
     }
 
     getHistoryPlayersPosition(matrix, index) {
@@ -111,6 +113,12 @@ export default class Game extends React.Component {
         })
     }
 
+    setOrderedList() {
+        this.setState({
+            orderMovementsAsc: !this.state.orderMovementsAsc,
+        });
+    }
+
     render() {
         return (
             <div className="game">
@@ -126,7 +134,10 @@ export default class Game extends React.Component {
                     />
                 </div>
                 <div className="game-info">
-                    <ul>{this.getHistoryListStatus()}</ul>
+                    <a className="" href="#"
+                       onClick={() => this.setOrderedList()}
+                    >Order list {this.state.orderMovementsAsc ? 'Descending' : 'Ascending'}</a>
+                    <ul>{this.getHistoryMovements()}</ul>
                 </div>
             </div>
         );
