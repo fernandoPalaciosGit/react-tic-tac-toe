@@ -11,8 +11,6 @@ In order to execute this project you need to install:
 
 * [NodeJS 6.10.2](https://nodejs.org/en/download/)
 
-  You can check this with `node -v`
-
 <a name="run-project"/>
 
 ## Run project
@@ -38,4 +36,4 @@ In order to execute this project you need to install:
 
 ## Demo
 
-https://fernandoPalaciosGit.github.io/tic-tac-toe/
+https://fernandopalaciosgit.github.io/react-tic-tac-toe/
